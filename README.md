@@ -10,3 +10,5 @@ Community submission repository. A new game is submitted as `games/<publisher>/<
 5. Open a PR and complete the security/pedagogy checklist.
 
 A game that passes technical gates enters as **Community**. Maintainers may promote a well-reviewed game to **Curated** through registry metadata after pedagogical review.
+
+Detailed artifact and publication rules are documented in `docs/README.md` and `docs/WORKFLOW.md`.
