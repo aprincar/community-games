@@ -61,7 +61,13 @@ for (const dir of list) {
   if (!Array.isArray(manifest.optionalPermissions) || !manifest.optionalPermissions.every((permission) => allowed.has(permission)))
     errors.push(`${name}: unsupported optional permission`);
   for (const permission of manifest.permissions ?? [])
-    if (sensitive.has(permission)) errors.push(`${name}: sensitive permission ${permission} needs a dedicated maintainer exception`);
+    if (sensitive.has(permission))
+      errors.push(`${name}: sensitive permissions must be declared only in optionalPermissions`);
+  if (
+    manifest.offline !== true &&
+    !(Array.isArray(manifest.optionalPermissions) && manifest.optionalPermissions.includes('network'))
+  )
+    errors.push(`${name}: non-offline games must declare network in optionalPermissions`);
   if (
     /<script[^>]+src=["']https?:\/\//i.test(html) ||
     /import\s*\([^)]*https?:\/\//i.test(html) ||

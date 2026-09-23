@@ -34,8 +34,26 @@ test('community validator rejects remote executable code in isolated fixtures', 
   assert.match(result.stderr, /remote\/dynamic executable/i);
 });
 
-test('community validator rejects sensitive permissions without maintainer exception', () => {
+test('community validator rejects sensitive permissions as required capabilities', () => {
   const result = runFixture({ ...baseManifest, permissions: ['network'] }, '<script>1</script>');
   assert.notEqual(result.status, 0);
-  assert.match(result.stderr, /sensitive permission/i);
+  assert.match(result.stderr, /sensitive permissions must be declared only in optionalPermissions/i);
+});
+
+
+test('community validator accepts non-offline games only with optional network declaration', () => {
+  const result = runFixture(
+    { ...baseManifest, permissions: [], optionalPermissions: ['network'], offline: false },
+    '<script>1</script>',
+  );
+  assert.equal(result.status, 0, result.stderr);
+});
+
+test('community validator rejects non-offline games without optional network declaration', () => {
+  const result = runFixture(
+    { ...baseManifest, permissions: [], optionalPermissions: [], offline: false },
+    '<script>1</script>',
+  );
+  assert.notEqual(result.status, 0);
+  assert.match(result.stderr, /non-offline games must declare network in optionalPermissions/i);
 });
