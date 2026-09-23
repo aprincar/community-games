@@ -12,3 +12,10 @@ Community submission repository. A new game is submitted as `games/<publisher>/<
 A game that passes technical gates enters as **Community**. Maintainers may promote a well-reviewed game to **Curated** through registry metadata after pedagogical review.
 
 Detailed artifact and publication rules are documented in `docs/README.md` and `docs/WORKFLOW.md`.
+
+
+## Permissões sensíveis
+
+`camera`, `microphone`, `network` e `geolocation` nunca podem aparecer em `permissions`. Elas só podem ser declaradas em `optionalPermissions`, e a declaração não concede acesso. O GameHost continua default-deny e decide grants explícitos. Não existe exceção de maintainer que contorne o Host.
+
+Jogos que dependem de rede devem marcar `offline: false` e declarar `network` em `optionalPermissions`.
